@@ -1,3 +1,5 @@
+{-# LANGUAGE OverloadedStrings #-}
+
 module Main where
 
 import System.Environment (getArgs)
@@ -7,6 +9,7 @@ import Ast
 import TypeParser
 import Serialize
 import Data.Aeson (encode)
+import qualified Data.ByteString.Lazy.Char8 as B
 
 mapMaybe :: (a -> Maybe b) -> [a] -> [b]
 mapMaybe _ [] = []
@@ -32,7 +35,6 @@ main = do
       printContent ds
       putStrLn "// ----- END GENERATED CODE -----"
       putStrLn "\n"
-      putStrLn $ intercalate "\n"
-        $ map (show . encode)
-        $ mapMaybe serializeConfig ds
+      B.putStrLn $ B.intercalate "\n"
+        $ map encode $ mapMaybe serializeConfig ds
     Left e -> putStrLn $ show e
