@@ -20,16 +20,9 @@ these into your project.
 
 ### 4. Configure Wit.
 Using `example/Template.zip` as a guide, set up your Wit application. Change
-relevant information in the top-level JSON files. Next, add your entity files.
-Each file should be named `<entity-name>.json`, and should contain the
-following:
-```
-{
-  data: <output-from-tool>
-}
-```
-Transfer the entity declarations to their own files, and then use the
-`zip-command` in `app.json` to zip the configuration.
+relevant information in the top-level JSON files. Next, add your entity files to
+the entity directory. They are generated into `out/<entity>.json`. Finally, use
+the `zip-command` in `app.json` to zip the configuration.
 
 ### 5. Train your Wit application.
 After setting up the app (there will be an option to "restore from backup"; use

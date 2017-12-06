@@ -24,6 +24,12 @@ printContent ds = do
   putStrLn ""
   putStrLn $ intercalate "\n" $ map serializeRuntype ds
 
+declPath :: Decl -> Maybe FilePath
+declPath (FreeText s) = Just $ "out/" ++ s ++ ".json"
+declPath (Keywords s _) = Just $ "out/" ++ s ++ ".json"
+declPath (Trait s _) = Just $ "out/" ++ s ++ ".json"
+declPath (Alias s _) = Nothing
+
 main :: IO ()
 main = do
   args <- getArgs
@@ -34,7 +40,8 @@ main = do
       putStrLn "// ------- GENERATED CODE -------"
       printContent ds
       putStrLn "// ----- END GENERATED CODE -----"
-      putStrLn "\n"
-      B.putStrLn $ B.intercalate "\n"
-        $ map encode $ mapMaybe serializeConfig ds
+      let jsons = map (\x -> "{\"data\":" `B.append` x `B.append` "}")
+            $ map encode $ mapMaybe serializeConfig ds
+      mapM_ (\(path, json) -> B.writeFile path json)
+        $ zip (mapMaybe declPath ds) jsons
     Left e -> putStrLn $ show e
