@@ -16,8 +16,10 @@ data Entity = Entity
   , name :: String
   , lang :: String
   , exotic :: Bool
-  , uid :: String
+  , id :: String
   , values :: [EValue]
+  , builtin :: Bool
+  , doc :: String
   } deriving (Generic, Show)
 
 instance ToJSON EValue where
@@ -36,8 +38,10 @@ mkEntity l n vs =
   , name = n
   , lang = "en"
   , exotic = False
-  , uid = n
+  , Serialize.id = n
   , values = map mkEValue vs
+  , doc = ""
+  , builtin = False
   }
 
 serializeConfig :: Decl -> Maybe Entity

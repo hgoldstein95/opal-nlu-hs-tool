@@ -2,6 +2,6 @@ free-text Msg
 
 keywords Time = "later" | "tomorrow"
 
-alias Send = { msg: Msg, time: Time }
+alias Set = { msg: Msg, time: Time }
 
-trait Intent = <Read>{} | <Send>Send
+trait Intent = <Get> {} | <Set> Set
